@@ -277,15 +277,14 @@ class FireAnt(Ant):
         the additional damage if the fire ant dies.
         """
         # BEGIN Problem 5
-
-        amount_take, amount_give = amount, amount 
-        if self.health - amount_take <= 0:
-            amount_give += self.damage
+        location = self.place
+        Ant.reduce_health(self, amount)
+        if self.health <= 0:
+            amount += self.damage
             
-        for bee in self.place.bees[:]:
-            Bee.reduce_health(bee, amount_give)
+        for bee in location.bees[:]:
+            Bee.reduce_health(bee, amount)
 
-        super().reduce_health(amount_take)
         # END Problem 5
 
 class WallAnt(Ant):
@@ -352,7 +351,6 @@ class ContainerAnt(Ant):
     def action(self, gamestate):
         # BEGIN Problem 8
         if self.contained_ant:
-            #print(self.contained_ant)
             self.contained_ant.action(gamestate)
         # END Problem 8
 
